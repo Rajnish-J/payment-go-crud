@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
 	models "crud/src/model"
@@ -26,16 +26,16 @@ func InitDB() {
 		panic("DATABASE_URL not set in environment")
 	}
 
-	// Open MySQL connection
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	// Open PostgreSQL connection (for Neon)
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(fmt.Sprintf("Failed to connect to database: %v", err))
 	}
 
-	// ✅ AutoMigrate models to create/update tables
+	// AutoMigrate models
 	err = db.AutoMigrate(
-		&models.User{},    // Example: users table
-		&models.Company{}, // Optional: other tables
+		&models.User{},
+		&models.Company{},
 		&models.Product{},
 		&models.PaymentHistory{},
 	)
@@ -43,6 +43,5 @@ func InitDB() {
 		panic(fmt.Sprintf("AutoMigrate failed: %v", err))
 	}
 
-	// Assign DB to global variable
 	DB = db
 }
