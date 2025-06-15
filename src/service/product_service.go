@@ -1,36 +1,36 @@
 package service
 
 import (
-	"crud/src/bussiness"
+	business "crud/src/bussiness"
 	"crud/src/dto"
-) 
+	models "crud/src/model"
+)
 
-func GetAllProduts() ([]dto.CreateProductRequest, error) {
+func GetAllProduts() ([]models.Product, error) {
 	result, error := business.GetAllProduts()
 	return result, error
 }
 
-func GetProductByID(id uint) (dto.CreateProductRequest, error) {
+func GetProductByID(id uint) (models.Product, error) {
 	product, err := business.GetProductByID(id)
-	if err != nil{
+	if err != nil {
 		return product, err
 	}
-	return product,nil
+	return product, nil
 }
 
 func CreateProduct(product dto.CreateProductRequest) error {
 	err := business.CreateProduct(product)
 
-	if err != nil{
+	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func UpdateProduct(product dto.CreateProductRequest) error {
-	err := business.UpdateProduct(product)
-
-	if err != nil{
+func UpdateProduct(id uint,product dto.CreateProductRequest) error {
+	err := business.UpdateProduct(id,product)
+	if err != nil {
 		return err
 	}
 	return nil
@@ -39,8 +39,8 @@ func UpdateProduct(product dto.CreateProductRequest) error {
 func DeleteProduct(id uint) error {
 	err := business.DeleteProduct(id)
 
-	 if err != nil{
+	if err != nil {
 		return err
-	 }
-	 return nil
+	}
+	return nil
 }
