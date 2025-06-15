@@ -13,4 +13,4 @@ func ValidateUser(req dto.CreateUserRequest) error {
 		return errors.New("password must be at least 6 characters")
 	}
 	return nil
-}
+} 

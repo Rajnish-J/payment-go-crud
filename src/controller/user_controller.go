@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"crud/src/service"
 	"crud/src/dto"
-)
+) 
 
 func GetAllUsers(c *gin.Context) {
 	users, err := service.GetAllUsers()

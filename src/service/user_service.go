@@ -5,7 +5,7 @@ import (
 	"crud/src/config"
 	"crud/src/dto"
 	"crud/src/model"
-)
+) 
 
 func GetAllUsers() ([]models.User, error) {
 	var users []models.User
