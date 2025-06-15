@@ -27,14 +27,22 @@ func (repo *ProductRepo) CreateProduct(product models.Product) error {
 	return config.DB.Create(&product).Error
 }
 
+
 func (repo *ProductRepo) UpdateProduct(id uint, product models.Product) error {
 	var existProduct models.Product
 	result := config.DB.First(&existProduct, id)
 	if result.Error != nil {
 		return result.Error
 	}
-	return config.DB.Save(&product).Error
+
+	// Update fields
+	existProduct.Name = product.Name
+	existProduct.CompanyID = product.CompanyID
+	existProduct.Price = product.Price
+
+	return config.DB.Save(&existProduct).Error
 }
+
 
 func (repo *ProductRepo) DeleteProduct(id uint) error {
 	var existProduct models.Product

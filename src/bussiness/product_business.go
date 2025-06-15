@@ -29,17 +29,18 @@ func CreateProduct(req dto.CreateProductRequest) error {
 	return nil
 }
 
-func UpdateProduct(id uint,req dto.CreateProductRequest) error {
-	if req.Name == "" || req.CompanyID <=0 || req.Price <=0 {
+
+func UpdateProduct(id uint, req dto.CreateProductRequest) error {
+	if req.Name == "" || req.CompanyID <= 0 || req.Price <= 0 {
 		return errors.New("all fields are required")
 	}
-	product:= models.Product{
-		Name: req.Name,
+	product := models.Product{
+		ID:        id,
+		Name:      req.Name,
 		CompanyID: req.CompanyID,
-		Price: req.Price,
+		Price:     req.Price,
 	}
-	repo.UpdateProduct(id, product)
-	return nil
+	return repo.UpdateProduct(id, product)
 }
 
 func DeleteProduct(id uint) error {
