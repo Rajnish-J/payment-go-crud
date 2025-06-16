@@ -67,6 +67,7 @@ func UpdateUser(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "User updated"})
 }
+
 func DeleteUser(c *gin.Context) {
 	id := c.Param("id")
 	// Convert id from string to uint

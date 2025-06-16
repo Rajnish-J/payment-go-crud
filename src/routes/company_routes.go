@@ -6,12 +6,12 @@ import (
 )
 
 func RegisterCompanyRoutes(router *gin.Engine) {
-	company := router.Group("/api/company")
+	api := router.Group("/api")
 	{
-		company.POST("/", controller.CreateCompany)
-		company.GET("/", controller.GetCompanies)
-		company.GET("/:id", controller.GetCompanyByID)
-		company.PUT("/", controller.UpdateCompany)
-		company.DELETE("/:id", controller.DeleteCompany)
+		api.POST("/company", controller.CreateCompany)
+		api.GET("/company", controller.GetCompanies)
+		api.GET("/company:id", controller.GetCompanyByID)
+		api.PUT("/company", controller.UpdateCompany)
+		api.DELETE("/company:id", controller.DeleteCompany)
 	}
 }

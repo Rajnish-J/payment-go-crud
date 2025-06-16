@@ -1,7 +1,7 @@
 package service
 
 import (
-	business "crud/src/bussiness"
+	business "crud/src/business"
 	"crud/src/dto"
 	models "crud/src/model"
 )

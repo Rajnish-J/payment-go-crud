@@ -1,17 +1,18 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
 	"crud/src/controller"
+
+	"github.com/gin-gonic/gin"
 )
 
-func RegisterPaymentRoutes(r *gin.Engine) {
-	payment := r.Group("/api/payments")
+func RegisterPaymentRoutes(router *gin.Engine) {
+	api := router.Group("/api")
 	{
-		payment.POST("/", controller.CreatePayment)
-		payment.GET("/", controller.GetPayments)
-		payment.GET("/:id", controller.GetPaymentByID)
-		payment.PUT("/", controller.UpdatePayment)
-		payment.DELETE("/:id", controller.DeletePayment)
+		api.POST("/payments", controller.CreatePayment)
+		api.GET("/payments", controller.GetAllPayments)
+		api.GET("/payments/:id", controller.GetPaymentByID)
+		api.PUT("/payments/:id", controller.UpdatePayment)
+		api.DELETE("/payments/:id", controller.DeletePayment)
 	}
 }
