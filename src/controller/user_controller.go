@@ -3,10 +3,11 @@ package controller
 import (
 	"net/http"
 
-	"fmt"
-	"github.com/gin-gonic/gin"
+	models "crud/src/model"
 	"crud/src/service"
-	"crud/src/dto"
+	"fmt"
+
+	"github.com/gin-gonic/gin"
 ) 
 
 func GetAllUsers(c *gin.Context) {
@@ -34,7 +35,7 @@ func GetUserByID(c *gin.Context) {
 }
 
 func CreateUser(c *gin.Context) {
-	var req dto.CreateUserRequest
+	var req models.User
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -54,7 +55,7 @@ func UpdateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
 		return
 	}
-	var req dto.CreateUserRequest
+	var req models.User
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
