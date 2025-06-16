@@ -3,7 +3,6 @@ package service
 import (
 	"crud/src/bussiness"
 	"crud/src/config"
-	"crud/src/dto"
 	"crud/src/model"
 ) 
 
@@ -22,7 +21,7 @@ func GetUserByID(id uint) (models.User, error) {
 	return user, nil
 }
 
-func CreateUser(req dto.CreateUserRequest) error {
+func CreateUser(req models.User) error {
 	if err := business.ValidateUser(req); err != nil {
 		return err
 	}
@@ -35,7 +34,7 @@ func CreateUser(req dto.CreateUserRequest) error {
 	return result.Error
 }
 
-func UpdateUser(id uint, req dto.CreateUserRequest) error {
+func UpdateUser(id uint, req models.User) error {
 	if err := business.ValidateUser(req); err != nil {
 		return err
 	}
