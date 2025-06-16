@@ -7,9 +7,12 @@ import (
 )
 
 func SetProductRoutes(router *gin.Engine) {
-	router.GET("/products", controller.GetAllProducts)
-	router.GET("/products/:id", controller.GetProductByID)
-	router.POST("/products", controller.CreateProduct)
-	router.PUT("/products/:id", controller.UpdateProduct)
-	router.DELETE("/products/:id", controller.DeleteProduct)
+	api := router.Group("/api")
+	{
+		api.GET("/products", controller.GetAllProducts)
+		api.GET("/products/:id", controller.GetProductByID)
+		api.POST("/products", controller.CreateProduct)
+		api.PUT("/products/:id", controller.UpdateProduct)
+		api.DELETE("/products/:id", controller.DeleteProduct)
+	}
 }
