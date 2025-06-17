@@ -9,7 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
+ 
 // GetAllUsers godoc
 // @Summary      Get all users
 // @Description  Retrieves all users from the database
