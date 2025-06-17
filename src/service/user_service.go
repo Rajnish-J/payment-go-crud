@@ -3,8 +3,8 @@ package service
 import (
 	"crud/src/business"
 	"crud/src/config"
-	"crud/src/model"
-) 
+	models "crud/src/model"
+)
 
 func GetAllUsers() ([]models.User, error) {
 	var users []models.User
@@ -56,4 +56,21 @@ func DeleteUser(id uint) error {
 		return result.Error
 	}
 	return config.DB.Delete(&user).Error
+}
+
+func PlaceOrderService(req models.Payment) error {
+	tx := config.DB.Begin()
+
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	if err := business.PlaceOrder(tx, req); err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	return tx.Commit().Error
 }

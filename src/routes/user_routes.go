@@ -2,7 +2,7 @@ package routes
 
 import (
 	"crud/src/controller"
-	
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,6 +14,6 @@ func SetupRoutes(router *gin.Engine) {
 		api.POST("/users", controller.CreateUser)
 		api.PUT("/users/:id", controller.UpdateUser)
 		api.DELETE("/users/:id", controller.DeleteUser)
+		api.POST("/users/placeOrder", controller.PlaceOrder)
 	}
 }
-

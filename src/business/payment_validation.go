@@ -5,7 +5,7 @@ import (
 	"errors"
 )
 
-func ValidatePayment(req models.PaymentHistory) error {
+func ValidatePayment(req models.Payment) error {
 	if req.UserID == 0 {
 		return errors.New("user_id is required")
 	}

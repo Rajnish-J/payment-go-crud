@@ -1,18 +1,50 @@
 basePath: /
 definitions:
+  models.Payment:
+    properties:
+      amount:
+        type: number
+      id:
+        type: integer
+      mode:
+        description: '"Cash", "UPI", "Card"'
+        type: string
+      payment_time:
+        type: string
+      product_id:
+        type: integer
+      reward_desc:
+        type: string
+      reward_title:
+        type: string
+      status:
+        description: '"Completed", "Failed"'
+        type: string
+      use_rewards:
+        description: ignored in DB
+        type: boolean
+      user_id:
+        type: integer
+    type: object
   models.User:
     properties:
+      address:
+        type: string
       age:
         type: integer
       email:
         type: string
       id:
-        description: gorm.Model     // This will add fields ID, CreatedAt, UpdatedAt,
-          DeletedAt
         type: integer
       name:
         type: string
       password:
+        type: string
+      payments:
+        items:
+          $ref: '#/definitions/models.Payment'
+        type: array
+      phone:
         type: string
     type: object
 host: localhost:8080
@@ -155,6 +187,36 @@ paths:
               type: string
             type: object
       summary: Update an existing user
+      tags:
+      - users
+  /api/users/placeOrder:
+    post:
+      consumes:
+      - application/json
+      description: User places an order for a product with optional rewards
+      parameters:
+      - description: Order request
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.Payment'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Place an order
       tags:
       - users
 swagger: "2.0"

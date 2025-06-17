@@ -6,11 +6,11 @@ import (
 	models "crud/src/model"
 )
 
-func CreatePayment(req models.PaymentHistory) error {
+func CreatePayment(req models.Payment) error {
 	if err := business.ValidatePayment(req); err != nil {
 		return err
 	}
-	payment := models.PaymentHistory{
+	payment := models.Payment{
 		UserID:    req.UserID,
 		Amount:    req.Amount,
 		ProductID: req.ProductID,
@@ -19,26 +19,26 @@ func CreatePayment(req models.PaymentHistory) error {
 	return result.Error
 }
 
-func GetAllPayments() ([]models.PaymentHistory, error) {
-	var payments []models.PaymentHistory
+func GetAllPayments() ([]models.Payment, error) {
+	var payments []models.Payment
 	result := config.DB.Find(&payments)
 	return payments, result.Error
 }
 
-func GetPaymentByID(id uint) (*models.PaymentHistory, error) {
-	var payment models.PaymentHistory
+func GetPaymentByID(id uint) (*models.Payment, error) {
+	var payment models.Payment
 	result := config.DB.First((&payment), id)
 	if result.Error != nil {
-		return &models.PaymentHistory{}, result.Error
+		return &models.Payment{}, result.Error
 	}
 	return &payment, nil
 }
 
-func UpdatePayment(id uint, req models.PaymentHistory) error {
+func UpdatePayment(id uint, req models.Payment) error {
 	if err := business.ValidatePayment(req); err != nil {
 		return err
 	}
-	var payment models.PaymentHistory
+	var payment models.Payment
 	result := config.DB.First(&payment, id)
 	if result.Error != nil {
 		return result.Error
@@ -49,7 +49,7 @@ func UpdatePayment(id uint, req models.PaymentHistory) error {
 }
 
 func DeletePayment(id uint) error {
-	var payment models.PaymentHistory
+	var payment models.Payment
 	result := config.DB.First(&payment, id)
 	if result.Error != nil {
 		return result.Error

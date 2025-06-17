@@ -2,10 +2,12 @@ package models
 
 import "time"
 
-type PaymentHistory struct {
+type ProductHistory struct {
 	ID        uint      `gorm:"primaryKey" json:"id"`
 	UserID    uint      `json:"user_id"`
-	Amount    float64   `json:"amount"`
 	ProductID uint      `json:"product_id"`
-	TimeStamp time.Time `json:"TimeStamp"`
+	Action    string    `json:"action"`
+	Timestamp time.Time `gorm:"autoCreateTime" json:"timestamp"`
+	User      User      `gorm:"foreignKey:UserID"`
+	Product   Product   `gorm:"foreignKey:ProductID"`
 }

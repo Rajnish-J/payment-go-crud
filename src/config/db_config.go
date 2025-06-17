@@ -37,7 +37,8 @@ func InitDB() {
 		&models.User{},
 		&models.Company{},
 		&models.Product{},
-		&models.PaymentHistory{},
+		&models.ProductHistory{},
+		&models.Payment{},
 	)
 	if err != nil {
 		panic(fmt.Sprintf("AutoMigrate failed: %v", err))

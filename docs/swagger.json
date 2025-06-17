@@ -76,6 +76,52 @@
                 }
             }
         },
+        "/api/users/placeOrder": {
+            "post": {
+                "description": "User places an order for a product with optional rewards",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Place an order",
+                "parameters": [
+                    {
+                        "description": "Order request",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Payment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/users/{id}": {
             "get": {
                 "description": "Retrieves a user by their ID",
@@ -215,9 +261,50 @@
         }
     },
     "definitions": {
+        "models.Payment": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "mode": {
+                    "description": "\"Cash\", \"UPI\", \"Card\"",
+                    "type": "string"
+                },
+                "payment_time": {
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "reward_desc": {
+                    "type": "string"
+                },
+                "reward_title": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "\"Completed\", \"Failed\"",
+                    "type": "string"
+                },
+                "use_rewards": {
+                    "description": "ignored in DB",
+                    "type": "boolean"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.User": {
             "type": "object",
             "properties": {
+                "address": {
+                    "type": "string"
+                },
                 "age": {
                     "type": "integer"
                 },
@@ -225,13 +312,21 @@
                     "type": "string"
                 },
                 "id": {
-                    "description": "gorm.Model     // This will add fields ID, CreatedAt, UpdatedAt, DeletedAt",
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                },
+                "payments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Payment"
+                    }
+                },
+                "phone": {
                     "type": "string"
                 }
             }

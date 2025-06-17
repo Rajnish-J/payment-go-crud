@@ -13,7 +13,7 @@ import (
 )
 
 func CreatePayment(c *gin.Context) {
-	var p models.PaymentHistory
+	var p models.Payment
 	if err := c.ShouldBindJSON(&p); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -55,7 +55,7 @@ func UpdatePayment(c *gin.Context) {
 		return
 	}
 
-	var req models.PaymentHistory
+	var req models.Payment
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

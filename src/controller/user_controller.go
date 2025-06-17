@@ -8,7 +8,7 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-) 
+)
 
 // GetAllUsers godoc
 // @Summary      Get all users
@@ -129,4 +129,40 @@ func DeleteUser(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "User deleted"})
+}
+
+// PlaceOrder godoc
+// @Summary      Place an order
+// @Description  User places an order for a product with optional rewards
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        order  body  models.Payment  true  "Order request"
+// @Success      201    {object}  map[string]string
+// @Failure      400    {object}  map[string]string
+// @Router       /api/users/placeOrder [post]
+func PlaceOrder(c *gin.Context) {
+	var req models.Payment
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": "error",
+			"error":  "Invalid input: " + err.Error(),
+		})
+		return
+	}
+
+	err := service.PlaceOrderService(req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": "error",
+			"error":  err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"status":  "success",
+		"message": "Order placed successfully",
+	})
 }
