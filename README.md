@@ -5,3 +5,7 @@ swag init -g src/cmd/main.go
 
 ## Swagger UI URL to test the endpoints
 http://localhost:8080/swagger/index.html
+
+# go install github.com/swaggo/swag/cmd/swag@latest 
+# go get -u github.com/swaggo/gin-swagger
+# go get -u github.com/swaggo/files
