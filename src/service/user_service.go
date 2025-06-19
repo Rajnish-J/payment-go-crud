@@ -4,6 +4,8 @@ import (
 	"crud/src/business"
 	"crud/src/config"
 	models "crud/src/model"
+	"crud/src/utils"
+	"errors"
 )
 
 func GetAllUsers() ([]models.User, error) {
@@ -73,4 +75,26 @@ func PlaceOrderService(req models.Payment) error {
 	}
 
 	return tx.Commit().Error
+}
+
+func LoginUser(req models.LoginRequest) (string, error) {
+	var user models.User
+	if err := config.DB.Where("email = ?", req.Email).First(&user).Error; err != nil {
+		return "", errors.New("invalid email or user not found")
+	}
+
+	// if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
+	// 	return "", errors.New("invalid password")
+	// }
+
+	if user.Password != req.Password {
+		return "", errors.New("invalid password")
+	}
+
+	token, err := utils.GenerateJWT(user.ID, "user") // Replace "user" with user.Role if you use roles
+	if err != nil {
+		return "", errors.New("failed to generate token")
+	}
+
+	return token, nil
 }

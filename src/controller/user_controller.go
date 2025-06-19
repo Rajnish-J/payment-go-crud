@@ -51,6 +51,8 @@ func GetUserByID(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoidXNlciIsImV4cCI6MTc1MDMyMTg0NX0.rA3CLJ0Ymnbzo1Im8-YDteW3tWeXOIgDnhHC_RvGHeo
+
 // CreateUser godoc
 // @Summary      Create a new user
 // @Description  Adds a new user to the system
@@ -165,4 +167,31 @@ func PlaceOrder(c *gin.Context) {
 		"status":  "success",
 		"message": "Order placed successfully",
 	})
+}
+
+// LoginUser godoc
+// @Summary      Login user
+// @Description  Authenticates user and returns a JWT token
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        credentials  body      models.LoginRequest  true  "User credentials"
+// @Success      200  {object}  map[string]string
+// @Failure      400  {object}  map[string]string
+// @Failure      401  {object}  map[string]string
+// @Router       /api/users/login [post]
+func LoginUser(c *gin.Context) {
+	var req models.LoginRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	token, err := service.LoginUser(req)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"token": token})
 }

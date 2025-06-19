@@ -1,5 +1,15 @@
 basePath: /
 definitions:
+  models.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
   models.Payment:
     properties:
       amount:
@@ -126,7 +136,7 @@ paths:
       tags:
       - users
     get:
-      description: Retrieves a user by their ID
+      description: Retrieves a user by their ID (requires auth)
       parameters:
       - description: User ID
         in: path
@@ -146,12 +156,26 @@ paths:
             additionalProperties:
               type: string
             type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
         "404":
           description: Not Found
           schema:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Get user by ID
       tags:
       - users
@@ -187,6 +211,42 @@ paths:
               type: string
             type: object
       summary: Update an existing user
+      tags:
+      - users
+  /api/users/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates user and returns a JWT token
+      parameters:
+      - description: User credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login user
       tags:
       - users
   /api/users/placeOrder:
