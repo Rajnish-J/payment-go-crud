@@ -11,8 +11,8 @@ func RegisterCompanyRoutes(router *gin.Engine) {
 	{
 		api.POST("/company", controller.CreateCompany)
 		api.GET("/company", controller.GetCompanies)
-		api.GET("/company:id", controller.GetCompanyByID)
+		api.GET("/company/:id", controller.GetCompanyByID)
 		api.PUT("/company", controller.UpdateCompany)
-		api.DELETE("/company:id", controller.DeleteCompany)
+		api.DELETE("/company/:id", controller.DeleteCompany)
 	}
 }
